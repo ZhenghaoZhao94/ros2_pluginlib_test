@@ -1,0 +1,60 @@
+cmake_minimum_required(VERSION 3.5)
+project(polygon_base)
+
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
+
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(pluginlib REQUIRED)
+
+# add_executable(area_node src/area_node.cpp)
+
+# target_include_directories(area_node PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include>)
+
+# ament_target_dependencies(
+#   area_node
+#   "pluginlib"
+# )
+
+# install(TARGETS area_node
+#   DESTINATION lib/${PROJECT_NAME})
+
+
+# 必须把接口类的头文件安装出来，不然插件库编译的时候找不到头文件
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
+# 指定要导出给其他依赖项的包含目录，可以确保其他软件包在构建时能够正确地包含并访问到当前软件包的头文件，从而实现正确的编译和链接。
+ament_export_include_directories(
+  include
+)
+
+
+# if(BUILD_TESTING)
+#   find_package(ament_lint_auto REQUIRED)
+#   # the following line skips the linter which checks for copyrights
+#   # uncomment the line when a copyright and license is not present in all source files
+#   #set(ament_cmake_copyright_FOUND TRUE)
+#   # the following line skips cpplint (only works in a git repo)
+#   # uncomment the line when this package is not in a git repo
+#   #set(ament_cmake_cpplint_FOUND TRUE)
+#   ament_lint_auto_find_test_dependencies()
+# endif()
+
+ament_package()
